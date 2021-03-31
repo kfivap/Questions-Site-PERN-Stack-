@@ -8,9 +8,10 @@ import Alert from "react-bootstrap/Alert";
 import {Context} from "../index";
 
 
+
 const AskForm = observer(() => {
 
-    const {user} = useContext(Context)
+    const {user, profile} = useContext(Context)
 
     // const questionId = parseInt(useLocation().pathname.replace(/^\D+/g, ''))
 
@@ -31,11 +32,11 @@ const AskForm = observer(() => {
 
         if (!(text.trim() === '')) {
 
-            for(let i=0; i<50; i++){
-                await askQuestion(from, 2, text.trim()+i)
-            }
-
-            // await askQuestion(from, 2, text.trim())
+            console.log(profile.userBio.id)
+            // for(let i=0; i<50; i++){
+            //     await askQuestion(from, profile.userId, text.trim()+i)
+            // }
+            await askQuestion(from, profile.userBio.id, text.trim())
             setText('')
             setAlertShow(true)
             setTimeout(()=>{
@@ -44,7 +45,6 @@ const AskForm = observer(() => {
         }
 
     }
-
 
 
 
@@ -72,8 +72,8 @@ const AskForm = observer(() => {
                 onChange={e => setText(e.target.value)}
 
                 />
-                <span className='user-select-none' onClick={anonymousHandler}>
-                <input type='checkbox' name='anon' checked={anonymous} onChange={()=>{}}/>
+                <span className='user-select-none' onClick={user.isAuth? anonymousHandler : null}>
+                <input type='checkbox' name='anon' checked={anonymous} disabled={!user.isAuth} onChange={()=>{}}/>
                 <label htmlFor={'anon'}>&nbsp; Ask anonymously</label>
                     </span>
                 <Button

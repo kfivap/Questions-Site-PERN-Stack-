@@ -6,7 +6,5 @@ class TestController {
         return res.json('It works!')
     }
 
-
-
 }
 module.exports = new TestController()

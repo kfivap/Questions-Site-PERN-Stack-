@@ -11,7 +11,8 @@ const UserBio = observer(() => {
     return (
 
             <Alert variant='primary' style={{textAlign: 'center'}}>
-                <Image src={profile.userBio.profilePhoto} width={150} roundedCircle/>
+                <Image src={process.env.REACT_APP_API_URL + profile.userBio.profilePhoto} width={150} roundedCircle/>
+
                 <h2>{profile.userBio.name}</h2>
 
                 {profile.userBio.age || profile.userBio.sex ?

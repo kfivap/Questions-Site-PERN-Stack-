@@ -1,10 +1,19 @@
 
-import {LOGIN_ROUTE, REGISTRATION_ROUTE, MAIN_ROUTE, QUESTION_ROUTE, USER_ROUTE, PENDING_ROUTE} from "./utils/consts";
+import {
+    LOGIN_ROUTE,
+    REGISTRATION_ROUTE,
+    MAIN_ROUTE,
+    QUESTION_ROUTE,
+    USER_ROUTE,
+    PENDING_ROUTE,
+    EDIT_ROUTE
+} from "./utils/consts";
 import Auth from "./pages/Auth";
 import Main from "./pages/Main";
 import Profile from "./pages/Profile";
 import Question from "./pages/Question";
 import Pending from "./pages/Pending";
+import Edit from "./pages/Edit";
 
 // export const authRoutes = [
 //     {
@@ -38,5 +47,9 @@ export const publicRoutes = [
     {
         path: PENDING_ROUTE,
         Component: Pending
+    },
+    {
+        path: EDIT_ROUTE,
+        Component: Edit
     },
 ]

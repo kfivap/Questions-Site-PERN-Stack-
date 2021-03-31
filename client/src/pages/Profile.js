@@ -22,31 +22,33 @@ const Profile = observer(() => {
 
     const fetchQuestions = async () => {
 
-        const fetchData = await getQuestions(userId, page, 12)
+        const fetchData = await getQuestions(profile.userBio.userId, page, 12)
         setPage(prevState => prevState + 1)
         profile.setQuestionsList([...toJS(profile.questionsList), ...fetchData.rows])
 
     }
 
+console.log(page)
     useEffect(async () => {
+console.log('useEffect')
+        try {
+            profile.setQuestionsList([])
+            setPage(0)
+            const data = await getBio(userId)
+            profile.setUserBio(data)
+            await fetchQuestions()
+            setLoading(false)
+        } catch (e) {
+            if (e.message === 'Error: Request failed with status code 404') {
+                setNotFound(true)
+            }
 
-try {
-    const data = await getBio(userId)
-    console.log(data)
-    profile.setUserBio(data)
-    await fetchQuestions()
-    setLoading(false)
-} catch (e) {
-    if(e.message = 'Error: Request failed with status code 404'){
-        setNotFound(true)
-    }
+            setLoading(false)
 
-    setLoading(false)
-
-}
+        }
 
 
-    }, [])
+    }, [userId])
 
 
     window.onscroll = function (ev) {
@@ -55,18 +57,18 @@ try {
 
         }
     };
-    if(loading){
+    if (loading) {
         return <Spinner></Spinner>
     }
 
-    if(notFound){
+    if (notFound) {
         return <NotFoundPage/>
     }
 
     return (
         <div>
 
-            <button onclick={fetchQuestions}>fetch</button>
+            <button onClick={fetchQuestions}>fetch</button>
             <UserBio/>
             <AskForm/>
             <QuestionsList/>

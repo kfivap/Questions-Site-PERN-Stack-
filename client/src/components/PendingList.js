@@ -39,7 +39,7 @@ const PendingList = observer(() => {
     return (
         <div>
             {pending.pendingList.map((i, index) =>
-                <Card className='m-1' key={i.index}>
+                <Card className='m-1' key={index +Math.random()}>
 
                     <div className='d-flex'>{i.createdAt} from {i.from ? '*Имя пользователя' : "Anonymous"}</div>
                     <div><b>{i.questionText}</b></div>

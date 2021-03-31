@@ -28,21 +28,39 @@ const NavBar = observer(() => {
     <NavLink style={{color: "white"}}to={MAIN_ROUTE}>Question Site</NavLink>
     {user.isAuth ?
         <Nav className="ml-auto" style={{color:"white"}}>
-            <Button variant={'outline-light'}
-                    onClick={()=>history.push('/user/123')}
-            >User</Button>
+            {/*<Button variant={'outline-light'}*/}
+            {/*        onClick={()=>history.push(`/user/${user.userId}`)}*/}
+            {/*>User</Button>*/}
 
-            <Button variant={'outline-light'}
-            onClick={()=>history.push('/question/456')}
-            >Question</Button>
+            {/*<Button variant={'outline-light'}*/}
+            {/*onClick={()=>history.push('/question/344')}*/}
+            {/*>Question</Button>*/}
 
-            <Button variant={'outline-light'}
-            onClick={()=>history.push('/pending')}
-            >Pending</Button>
+            {/*<Button variant={'outline-light'}*/}
+            {/*onClick={()=>history.push('/pending')}*/}
+            {/*>Pending</Button>*/}
+
+            {/*<Button variant={'outline-light'}*/}
+            {/*onClick={()=>history.push('/edit')}*/}
+            {/*>Edit</Button>*/}
 
             <Button variant={'outline-light'} className={'ml-2'}
             onClick={()=>logOut()}
             >Выйти</Button>
+
+            <Button variant={'outline-light'}
+                    onClick={()=>history.push('/user/1')}
+            >1</Button>
+
+
+            <Button variant={'outline-light'}
+                    onClick={()=>history.push('/user/2')}
+            >2</Button>
+
+
+            <Button variant={'outline-light'}
+                    onClick={()=>history.push('/user/3')}
+            >3</Button>
 
 
         </Nav>

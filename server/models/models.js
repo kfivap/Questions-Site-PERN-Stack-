@@ -17,7 +17,7 @@ const UserBio = sequelize.define('user_bio', {
     age: {type: DataTypes.INTEGER},
     sex: {type: DataTypes.STRING},
     shortBio: {type: DataTypes.STRING},
-    profilePhoto: {type: DataTypes.STRING},
+    profilePhoto: {type: DataTypes.STRING, defaultValue: 'default-non-user-no-photo-1.jpg'},
 })
 
 

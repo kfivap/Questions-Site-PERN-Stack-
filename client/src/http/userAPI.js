@@ -32,3 +32,11 @@ export const getBio = async (userId) => {
     return (data)
 
 }
+
+export const setBio = async (bio) => {
+
+    // console.log(bio)
+    const {data} = await $authHost.put(`api/user/setBio`, bio)
+    return data
+
+}

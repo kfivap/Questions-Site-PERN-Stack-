@@ -3,7 +3,9 @@ const bcrypt = require('bcrypt')
 const {User, UserBio} = require('../models/models')
 const jwt = require('jsonwebtoken')
 const {Op} = require("sequelize");
-
+const uuid = require('uuid')
+const path = require('path')
+const checkUserMiddleware = require('../middleware/checkUserMiddleware')
 
 const generateJwt = (id, email, role) => {
     return jwt.sign({id, email, role},
@@ -113,6 +115,45 @@ class UserController {
         }
 
         return res.json(userBio)
+    }
+
+
+    async setBio(req, res, next){
+        const {name, location, age, sex, shortBio, userId} = req.body
+
+        let fileName = null
+        try{
+            const {img} = req.files
+            fileName = uuid.v4() + '.jpg'
+          await img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            console.log(fileName)
+        } catch (e) {
+            console.log(e.message)
+        }
+
+        if(checkUserMiddleware(req).id !== parseInt(userId)) {
+            // console.log(checkUserMiddleware(req).id)
+            return res.status(403).json('Not allowed')
+        }
+        if(fileName) {
+            const updated = await UserBio.update(
+                {
+                    name, location, age, sex, shortBio, profilePhoto: fileName
+                },
+                {where: {userId}}
+            )
+        return res.json(updated)
+        }
+        if(!fileName) {
+            const updated = await UserBio.update(
+                {
+                    name, location, age, sex, shortBio
+                },
+                {where: {userId}}
+            )
+        return res.json(updated)
+        }
+
 
     }
 
