@@ -90,6 +90,7 @@ const EditForm = observer(() => {
 
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Age</Form.Label>
+                    <small>&nbsp; (no needed real, just from 0 to 2147483647)</small>
                     <Form.Control
                         placeholder="Age"
                         value={age}
@@ -100,6 +101,7 @@ const EditForm = observer(() => {
 
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Sex</Form.Label>
+                    <small>&nbsp; (type any gender you think yourself, tolerance + BLM, bro)</small>
                     <Form.Control
                         placeholder="Sex"
                         value={sex}

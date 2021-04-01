@@ -39,6 +39,8 @@ export default class ProfileStore {
             // "userId": 1
         }
 
+        this._fetchingPage = 1
+
         makeAutoObservable(this)
     }
 
@@ -53,6 +55,9 @@ export default class ProfileStore {
     }
     setUserBio(bio){
         this._userBio = bio
+    }
+    setFetchingPage(page){
+        this._fetchingPage = page
     }
 
 
@@ -70,6 +75,10 @@ export default class ProfileStore {
 
     get userBio(){
         return this._userBio
+    }
+
+    get fetchingPage(){
+        return this._fetchingPage
     }
 
 }

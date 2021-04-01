@@ -7,7 +7,7 @@ import Image from "react-bootstrap/Image";
 const UserBio = observer(() => {
 
     const {profile} = useContext(Context)
-
+console.log(profile.userBio.age)
     return (
 
             <Alert variant='primary' style={{textAlign: 'center'}}>
@@ -16,7 +16,7 @@ const UserBio = observer(() => {
                 <h2>{profile.userBio.name}</h2>
 
                 {profile.userBio.age || profile.userBio.sex ?
-                    <h4>{profile.userBio.age ? <span>{profile.userBio.age}yo </span>: null}
+                    <h4>{(profile.userBio.age>=0) ? <span>{profile.userBio.age}yo </span>: null}
                         {profile.userBio.sex ?
                             <span> {profile.userBio.sex}</span> : null}
                         {profile.userBio.location ?

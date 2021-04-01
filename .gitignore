@@ -2,5 +2,10 @@
 
 /.idea/
 /client/node_modules/
-/server/static/
+
+
+/server/static/*
+!/server/static/default-non-user-no-photo-1.jpg
+
+
 /client/build/

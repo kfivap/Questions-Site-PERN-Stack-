@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import UserStore from "./store/UserStore";
 import ProfileStore from "./store/ProfileStore";
 import PendingQuestionStore from "./store/PendingQuestionStore";
-
+import './index.css'
 
 export const Context = createContext(null)
 

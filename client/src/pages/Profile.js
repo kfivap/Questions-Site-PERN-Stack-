@@ -15,44 +15,56 @@ const Profile = observer(() => {
 
     const {profile} = useContext(Context)
     const userId = useLocation().pathname.split('/')[2]
-    const [page, setPage] = useState(1)
-
+    const [stopLoad, setStopLoad] = useState(false) //if no more questions
     const [notFound, setNotFound] = useState(false)
     const [loading, setLoading] = useState(true)
 
     const fetchQuestions = async () => {
 
-        const fetchData = await getQuestions(profile.userBio.userId, page, 12)
-        setPage(prevState => prevState + 1)
-        profile.setQuestionsList([...toJS(profile.questionsList), ...fetchData.rows])
+        const fetchData = await getQuestions(profile.userBio.userId, profile.fetchingPage, 3).then()
 
+        profile.setFetchingPage(profile.fetchingPage + 1)
+
+        if (fetchData.rows.length === 0) {
+            setStopLoad(true)
+        }
+        profile.setQuestionsList([...toJS(profile.questionsList), ...fetchData.rows])
     }
 
-console.log(page)
-    useEffect(async () => {
-console.log('useEffect')
-        try {
-            profile.setQuestionsList([])
-            setPage(0)
-            const data = await getBio(userId)
-            profile.setUserBio(data)
-            await fetchQuestions()
-            setLoading(false)
-        } catch (e) {
-            if (e.message === 'Error: Request failed with status code 404') {
-                setNotFound(true)
+
+    useEffect(() => {
+        console.log('useEffect')
+        setStopLoad(false)
+        setNotFound(false)
+        profile.setFetchingPage(1)
+
+        async function fData() {
+            try {
+                profile.setQuestionsList([])
+
+                const data = await getBio(userId)
+                profile.setUserBio(data)
+                await fetchQuestions()
+                setLoading(false)
+            } catch (e) {
+                if (e.message === 'Request failed with status code 404') {
+                    setNotFound(true)
+                }
+
+                setLoading(false)
+
             }
 
-            setLoading(false)
-
         }
+
+        fData()
 
 
     }, [userId])
 
 
     window.onscroll = function (ev) {
-        if ((window.innerHeight + window.scrollY) > document.body.offsetHeight + 2) {
+        if ((window.innerHeight + window.scrollY) > document.body.offsetHeight + 2 && !stopLoad) {
             fetchQuestions()
 
         }

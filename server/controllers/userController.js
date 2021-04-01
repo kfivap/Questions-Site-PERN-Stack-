@@ -119,7 +119,8 @@ class UserController {
 
 
     async setBio(req, res, next){
-        const {name, location, age, sex, shortBio, userId} = req.body
+        let {name, location, age, sex, shortBio, userId} = req.body
+        age =Math.abs(parseInt(age))
 
         let fileName = null
         try{
@@ -130,6 +131,7 @@ class UserController {
         } catch (e) {
             console.log(e.message)
         }
+
 
         if(checkUserMiddleware(req).id !== parseInt(userId)) {
             // console.log(checkUserMiddleware(req).id)

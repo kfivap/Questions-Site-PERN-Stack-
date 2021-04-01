@@ -32,7 +32,7 @@ const QuestionsList = observer(() => {
                 <Card className='m-1' key={index}>
                     {/*{JSON.stringify(i)}*/}
 <h3>{i.id}</h3>
-                    <div>{i.createdAt} from {i.from ? '*Имя пользователя' : "Anonymous"}</div>
+                    <div>{i.createdAt} by {i.from ? '*Имя пользователя' : "Anonymous"}</div>
                     <span><b>{i.questionText}</b></span>
 
                     <span>{i.answerText}</span>

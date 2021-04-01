@@ -36,17 +36,13 @@ const NavBar = observer(() => {
             {/*onClick={()=>history.push('/question/344')}*/}
             {/*>Question</Button>*/}
 
-            {/*<Button variant={'outline-light'}*/}
-            {/*onClick={()=>history.push('/pending')}*/}
-            {/*>Pending</Button>*/}
+            <Button variant={'outline-light'}
+            onClick={()=>history.push('/pending')}
+            >Pending</Button>
 
-            {/*<Button variant={'outline-light'}*/}
-            {/*onClick={()=>history.push('/edit')}*/}
-            {/*>Edit</Button>*/}
 
-            <Button variant={'outline-light'} className={'ml-2'}
-            onClick={()=>logOut()}
-            >Выйти</Button>
+
+
 
             <Button variant={'outline-light'}
                     onClick={()=>history.push('/user/1')}
@@ -62,7 +58,12 @@ const NavBar = observer(() => {
                     onClick={()=>history.push('/user/3')}
             >3</Button>
 
-
+            <Button variant={'outline-light'}
+                    onClick={()=>history.push('/edit')}
+            >Edit</Button>
+            <Button variant={'outline-light'} className={'ml-2'}
+                    onClick={()=>logOut()}
+            >Выйти</Button>
         </Nav>
         :
         <Nav className="ml-auto" style={{color:"white"}}>
