@@ -1,3 +1,4 @@
+
 const {Op} = require("sequelize");
 
 const checkUserMiddleware = require('../middleware/checkUserMiddleware')
@@ -28,7 +29,7 @@ class LikesController {
             where: {answeredQuestionId: questionId, userId}
         })
         if(candidateLike){
-            return res.status(200).json('Like already exist')
+            return res.status(200).json({message:'Like already exist'})
         }
 
         const existedQuestion = await AnsweredQuestions.findOne({
@@ -42,7 +43,11 @@ class LikesController {
             userId
         })
 
-        return  res.json(newLike)
+        const countLikes = await AnsweredQuestions.increment(
+            {countLikes: +1},
+            {where: {id:questionId}})
+
+        return  res.json({message: 'Liked'})
 
     }
 

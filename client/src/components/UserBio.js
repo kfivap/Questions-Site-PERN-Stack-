@@ -7,7 +7,7 @@ import Image from "react-bootstrap/Image";
 const UserBio = observer(() => {
 
     const {profile} = useContext(Context)
-console.log(profile.userBio.age)
+// console.log(profile.userBio.age)
     return (
 
             <Alert variant='primary' style={{textAlign: 'center'}}>
@@ -24,7 +24,7 @@ console.log(profile.userBio.age)
 
                     </h4> : null}
 
-                {profile.shortBio}
+                {profile.userBio.shortBio}
             </Alert>
 
     );

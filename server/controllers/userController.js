@@ -21,18 +21,17 @@ class UserController {
     async registration(req, res, next) {
         let {email, password, nick, role, name} = req.body
         if (!email || !password || !nick) {
-            return res.status(400).json({message:"Not stated email or password or nick"})
+            return res.status(400).json({message: "Not stated email or password or nick"})
         }
 
 
-
         if (!email.match(emailRegExp)) {
-          return  res.status(400).json({message:'wrong email format'})
+            return res.status(400).json({message: 'wrong email format'})
         }
 
 
         if (!nick.match(nickRegExp)) {
-            return  res.status(400).json({message:'wrong nick format'})
+            return res.status(400).json({message: 'wrong nick format'})
         }
 
         const candidateEmail = await User.findOne({
@@ -82,11 +81,11 @@ class UserController {
         const user = await User.findOne({where: {email}})
 
         if (!user) {
-            return res.status(404).json({message:'email not found'})
+            return res.status(404).json({message: 'email not found'})
         }
         let comparePassword = bcrypt.compareSync(password, user.password)
         if (!comparePassword) {
-            return res.status(401).json({message:'wrong password'})
+            return res.status(401).json({message: 'wrong password'})
         }
         const token = generateJwt(user.id, user.email, user.role)
         return res.json({token, userId: user.id})
@@ -101,59 +100,84 @@ class UserController {
     }
 
 
-    async getBio(req, res, next){
+    async getBio(req, res, next) {
         const {userId} = req.query
 
-        if(!userId){
+        if (!userId) {
             return res.status(400).json({message: 'Profile not stated'})
         }
 
         const userBio = await UserBio.findOne({where: {userId}})
 
-        if(!userBio){
+        if (!userBio) {
             return res.status(404).json({message: 'Profile not found'})
         }
 
         return res.json(userBio)
     }
 
+    async getManyBios(req, res, next) {
+        const {arr} = req.query
+        let arr2 = JSON.parse('[' + arr + ']')
 
-    async setBio(req, res, next){
+        arr2.forEach(i => parseInt(i))
+        console.log(typeof (arr2[0]))
+
+        if (arr.length === 0) {
+            return res.status(400).json({message: 'Profile not stated'})
+        }
+
+        const userBio = await UserBio.findAll({
+                where: {id: arr2},
+                attributes: ['id', 'name'],
+            }
+        )
+
+        if (!userBio) {
+            return res.status(404).json({message: 'Profiles not found'})
+        }
+
+        return res.json(userBio)
+
+    }
+
+
+    async setBio(req, res, next) {
         let {name, location, age, sex, shortBio, userId} = req.body
-        age =Math.abs(parseInt(age))
+        age = Math.abs(parseInt(age))
 
         let fileName = null
-        try{
+        try {
             const {img} = req.files
             fileName = uuid.v4() + '.jpg'
-          await img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            await img.mv(path.resolve(__dirname, '..', 'static', fileName))
             console.log(fileName)
         } catch (e) {
             console.log(e.message)
         }
 
 
-        if(checkUserMiddleware(req).id !== parseInt(userId)) {
+        if (checkUserMiddleware(req).id !== parseInt(userId)) {
             // console.log(checkUserMiddleware(req).id)
             return res.status(403).json('Not allowed')
         }
-        if(fileName) {
+        if (fileName) {
             const updated = await UserBio.update(
                 {
                     name, location, age, sex, shortBio, profilePhoto: fileName
                 },
                 {where: {userId}}
             )
-        return res.json(updated)
+            return res.json(updated)
         }
-        if(!fileName) {
+        if (!fileName) {
             const updated = await UserBio.update(
                 {
                     name, location, age, sex, shortBio
                 },
                 {where: {userId}}
             )
-        return res.json(updated)
+            return res.json(updated)
         }
 
 

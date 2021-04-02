@@ -38,6 +38,9 @@ const AnsweredQuestions = sequelize.define('answered_questions', {
     // dateAnswered: {type: DataTypes.INTEGER, defaultValue: Date.now()},
     questionText: {type: DataTypes.STRING, allowNull: false},
     answerText: {type: DataTypes.STRING(4096), allowNull: false},
+
+
+    countLikes: {type: DataTypes.INTEGER, defaultValue: 0}
 })
 
 
@@ -73,6 +76,8 @@ AnsweredQuestions.belongsTo(User)
 
 AnsweredQuestions.hasMany(Likes)
 Likes.belongsTo(AnsweredQuestions)
+
+
 
 User.hasMany(Likes)
 Likes.belongsTo(User)

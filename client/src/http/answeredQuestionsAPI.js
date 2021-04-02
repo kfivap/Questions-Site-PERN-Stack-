@@ -4,7 +4,7 @@ import {$authHost, $host} from "./index";
 
 export const getQuestions = async (userId, page=1, limit=20) =>{
 
-    const {data} = await $host.get
+    const {data} = await $authHost.get
     (`api/questions/answered/show?userId=${userId}&page=${page}&limit=${limit}`,)
 
     return data

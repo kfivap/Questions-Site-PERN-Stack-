@@ -7,12 +7,12 @@ import AskForm from "../components/AskForm";
 import {getQuestions} from "../http/answeredQuestionsAPI";
 import {Context} from "../index";
 import {toJS} from "mobx";
-import {getBio} from "../http/userAPI";
+import {getBio, getManyBios} from "../http/userAPI";
 import NotFoundPage from "../components/NotFoundPage";
 import Spinner from "react-bootstrap/Spinner";
 
 const Profile = observer(() => {
-
+    //
     const {profile} = useContext(Context)
     const userId = useLocation().pathname.split('/')[2]
     const [stopLoad, setStopLoad] = useState(false) //if no more questions
@@ -21,19 +21,45 @@ const Profile = observer(() => {
 
     const fetchQuestions = async () => {
 
-        const fetchData = await getQuestions(profile.userBio.userId, profile.fetchingPage, 3).then()
+        const fetchData = await getQuestions(profile.userBio.userId, profile.fetchingPage, 10)
+
+        let idNameArray = []
+        for(let i=0; i<fetchData.rows.length; i++){
+            idNameArray.push(fetchData.rows[i].from)
+        }
+        // console.log(idNameArray)
+        if (fetchData.rows.length === 0) {
+            setStopLoad(true)
+
+        }
+        const fetchBios = await getManyBios(idNameArray)
+        // console.log(fetchBios)
+
+        for(let i=0; i<fetchData.rows.length; i++){
+            for(let j=0; j<idNameArray.length; j++){
+                if(fetchData.rows[i].from === idNameArray[j]){
+                    // console.log(fetchData.rows[i].from , idNameArray[j])
+                    if(fetchBios.filter(i=>i.id===idNameArray[j])[0]){
+                        fetchData.rows[i].name =fetchBios.filter(i=>i.id===idNameArray[j])[0].name
+                    }
+                    break
+                }
+                // console.log(i, j)
+            }
+            // fetchData.rows[i].name = 123
+            // console.log(fetchData.rows)
+
+        }
 
         profile.setFetchingPage(profile.fetchingPage + 1)
 
-        if (fetchData.rows.length === 0) {
-            setStopLoad(true)
-        }
+
         profile.setQuestionsList([...toJS(profile.questionsList), ...fetchData.rows])
     }
 
 
     useEffect(() => {
-        console.log('useEffect')
+        // console.log('useEffect')
         setStopLoad(false)
         setNotFound(false)
         profile.setFetchingPage(1)
@@ -48,7 +74,8 @@ const Profile = observer(() => {
                 setLoading(false)
             } catch (e) {
                 if (e.message === 'Request failed with status code 404') {
-                    setNotFound(true)
+
+                    profile.setNotFound(true)
                 }
 
                 setLoading(false)
@@ -67,6 +94,7 @@ const Profile = observer(() => {
         if ((window.innerHeight + window.scrollY) > document.body.offsetHeight + 2 && !stopLoad) {
             fetchQuestions()
 
+
         }
     };
     if (loading) {
@@ -77,10 +105,97 @@ const Profile = observer(() => {
         return <NotFoundPage/>
     }
 
+    // const userId = useLocation().pathname.split('/')[2]
+    // const [stopLoad, setStopLoad] = useState(false) //if no more questions
+    // const [notFound, setNotFound] = useState(false)
+    // const [loading, setLoading] = useState(true)
+    //
+    // const fetchQuestions = async () => {
+    //
+    //     const fetchData = await getQuestions(profile.userBio.userId, profile.fetchingPage, 10)
+    //
+    //     let idNameArray = []
+    //     for(let i=0; i<fetchData.rows.length; i++){
+    //         idNameArray.push(fetchData.rows[i].from)
+    //     }
+    //     // console.log(idNameArray)
+    //     if (fetchData.rows.length === 0) {
+    //         setStopLoad(true)
+    //
+    //     }
+    //     const fetchBios = await getManyBios(idNameArray)
+    //     // console.log(fetchBios)
+    //
+    //     for(let i=0; i<fetchData.rows.length; i++){
+    //         for(let j=0; j<idNameArray.length; j++){
+    //             if(fetchData.rows[i].from === idNameArray[j]){
+    //                 // console.log(fetchData.rows[i].from , idNameArray[j])
+    //                 if(fetchBios.filter(i=>i.id===idNameArray[j])[0]){
+    //                     fetchData.rows[i].name =fetchBios.filter(i=>i.id===idNameArray[j])[0].name
+    //                 }
+    //                 break
+    //             }
+    //             // console.log(i, j)
+    //         }
+    //         // fetchData.rows[i].name = 123
+    //         console.log(fetchData.rows)
+    //
+    //     }
+    //
+    //     profile.setFetchingPage(profile.fetchingPage + 1)
+    //
+    //
+    //     profile.setQuestionsList([...toJS(profile.questionsList), ...fetchData.rows])
+    // }
+    //
+    //
+    // useEffect(() => {
+    //     console.log('useEffect')
+    //     setStopLoad(false)
+    //     setNotFound(false)
+    //     profile.setFetchingPage(1)
+    //
+    //     async function fData() {
+    //         try {
+    //             profile.setQuestionsList([])
+    //
+    //             const data = await getBio(userId)
+    //             profile.setUserBio(data)
+    //             await fetchQuestions()
+    //             setLoading(false)
+    //         } catch (e) {
+    //             if (e.message === 'Request failed with status code 404') {
+    //                 setNotFound(true)
+    //             }
+    //
+    //             setLoading(false)
+    //
+    //         }
+    //
+    //     }
+    //
+    //     fData()
+    //
+    //
+    // }, [userId])
+    //
+    //
+    // window.onscroll = function (ev) {
+    //     if ((window.innerHeight + window.scrollY) > document.body.offsetHeight + 2 && !stopLoad) {
+    //         fetchQuestions()
+    //
+    //
+    //     }
+    // };
+    // if (loading) {
+    //     return <Spinner></Spinner>
+    // }
+    //
+
     return (
         <div>
 
-            <button onClick={fetchQuestions}>fetch</button>
+            {/*<button onClick={}>fetch</button>*/}
             <UserBio/>
             <AskForm/>
             <QuestionsList/>

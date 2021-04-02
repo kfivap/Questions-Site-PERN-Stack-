@@ -40,6 +40,7 @@ export default class ProfileStore {
         }
 
         this._fetchingPage = 1
+        this._notFound = false
 
         makeAutoObservable(this)
     }
@@ -59,7 +60,13 @@ export default class ProfileStore {
     setFetchingPage(page){
         this._fetchingPage = page
     }
+    setNotFound(boolean){
+        this._notFound = boolean
+    }
 
+    updateLikeCounter(index, number){
+        this._questionsList[index].countLikes += number
+    }
 
     get isAuth(){
         return this._isAuth
@@ -79,6 +86,9 @@ export default class ProfileStore {
 
     get fetchingPage(){
         return this._fetchingPage
+    }
+    get notFound(){
+        return this._notFound
     }
 
 }

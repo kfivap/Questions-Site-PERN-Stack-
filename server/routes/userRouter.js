@@ -8,6 +8,7 @@ router.post('/registration', userController.registration)
 router.post('/login', userController.login)
 router.get('/auth', authMiddleware, userController.check)
 router.get('/getBio', userController.getBio)
+router.get('/getManyBios', userController.getManyBios)
 router.put('/setBio', userController.setBio)
 
 

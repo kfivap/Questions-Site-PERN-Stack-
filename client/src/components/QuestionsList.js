@@ -1,59 +1,105 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {useHistory} from 'react-router-dom'
+import {setLike} from "../http/likeAPI";
+import ToggleToast from "./ToggleToast";
+
+import {parseDate} from "../functions/parseDate";
+
 
 
 const QuestionsList = observer(() => {
 
-    const {profile} = useContext(Context)
+    const {profile, user} = useContext(Context)
     const history = useHistory()
+    const [showToast, setShowToast] = useState(false)
+    const [toastText, setToastText] = useState('')
 
-    const likeHandler = () => {
-        alert('i am button')
+
+
+
+    const likeHandler = async (id, index) => {
+        setShowToast(false)
+        const data = await setLike(user.userId, id)
+        setShowToast(true)
+        setToastText(data.message)
+        setTimeout(() => {
+            setShowToast(false)
+        }, 2000)
+        if (data.message === 'Liked') {
+            profile.updateLikeCounter(index, 1)
+        }
     }
 
     const detailsHandler = (e) => {
-        console.log(e)
+
         history.push(`/question/${e}`)
 
     }
 
     const copyHandler = async (e) => {
-     await navigator.clipboard.writeText(window.location.origin + '/question/' + e)
+        await navigator.clipboard.writeText(window.location.origin + '/question/' + e)
     }
+
+    const linkToProfile = (id) => {
+        history.push(`/user/${id}`)
+        profile.setFetchingPage(1)
+        profile.setQuestionsList([])
+        // profile.setQuestionsList([])
+
+    }
+
 
 
     return (
         <div>
+            <ToggleToast show={showToast} text={toastText}/>
             {profile.questionsList.map((i, index) =>
-                <Card className='m-1' key={index}>
+                <Card className='m-1 mt-2 border-dark' key={index}>
                     {/*{JSON.stringify(i)}*/}
-<h3>{i.id}</h3>
-                    <div>{i.createdAt} by {i.from ? '*Имя пользователя' : "Anonymous"}</div>
-                    <span><b>{i.questionText}</b></span>
+                    {/*<h3>{i.id}</h3>*/}
 
-                    <span>{i.answerText}</span>
 
-                    <span className='ml-3 mt-1 mb-1'>
-                    <Button
-                        onClick={likeHandler}
-                        className='m-1 float-left' variant="danger" type="submit">
-                        Like!
-                    </Button>
-                        <Button
-                            onClick={detailsHandler.bind(true, i.id)}
-                            className='m-1 float-left' variant="outline-primary" type="submit">
-                        Details
-                    </Button>
-                        <Button
-                            onClick={copyHandler.bind(true, i.id)}
-                            className='m-1 float-left' variant="outline-dark" type="submit">
-                        Copy
-                    </Button>
-                        </span>
+                    <span className='p-1 pl-2 border'><b>{i.questionText} </b>
+                        by <span className={i.from !== 0 ? 'appLink' : ''}
+                        onClick={linkToProfile.bind(true, i.from)}
+                        >
+                          {i.name ? i.name : "Anonymous"}</span>
+                    </span>
+                    <span className='p-2 bg-light'>{i.answerText}</span>
+
+                    <div className='d-flex justify-content-between align-items-center'
+                    style={{height: '100%'}}
+                    >
+                        <span className='p-2 ml-2' style={{fontSize: 18}}><b>{i.countLikes}</b> Likes</span>
+                        <div className={'ml-2 mb-1'}>{parseDate(i.createdAt)}</div>
+                        <div>
+
+                            <Button
+                                onClick={detailsHandler.bind(true, i.id)}
+                                size="sm"
+                                className='mr-1 ' variant="outline-primary" type="submit">
+                                Details
+                            </Button>
+                            <Button
+                                onClick={copyHandler.bind(true, i.id)}
+                                size="sm"
+                                className='mr-1 ' variant="outline-dark" type="submit">
+                                Copy
+                            </Button>
+                            <Button
+                                onClick={likeHandler.bind(true, i.id, index)}
+                                size="sm"
+                                className='mr-1 ' variant="danger" type="submit"
+                            >
+                                Like!
+                            </Button>
+                        </div>
+
+                    </div>
 
                 </Card>
             )}

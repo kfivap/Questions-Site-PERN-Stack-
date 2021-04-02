@@ -7,6 +7,7 @@ import ProfileStore from "./store/ProfileStore";
 import PendingQuestionStore from "./store/PendingQuestionStore";
 import './index.css'
 
+
 export const Context = createContext(null)
 
 
@@ -15,7 +16,7 @@ ReactDOM.render(
     <Context.Provider value={{
         user: new UserStore(),
         profile: new ProfileStore(),
-        pending: new PendingQuestionStore()
+        pending: new PendingQuestionStore(),
 
     }}>
 

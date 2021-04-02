@@ -19,7 +19,7 @@ class PendingQuestionsController {
         }
 
 
-       let newQuestion =  await PendingQuestions.create({from, userId, questionText})
+       let newQuestion =  await PendingQuestions.create({from, userId, questionText })
 
        return  res.json(newQuestion)
 

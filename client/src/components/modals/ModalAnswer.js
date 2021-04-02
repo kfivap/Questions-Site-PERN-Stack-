@@ -69,11 +69,12 @@ const ModalAnswer = observer(({show, onHide}) => {
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Question text
-                    {JSON.stringify(123)}
+
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <FormControl as="textarea" aria-label="With textarea" placeholder={'answer text...'} maxLength="255"
+                <FormControl as="textarea" aria-label="With textarea" placeholder={'answer text...'} maxLength="4096"
+                             rows={15}
                              onChange={e => (setText(e.target.value))}
                 />
             </Modal.Body>

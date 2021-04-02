@@ -33,6 +33,14 @@ export const getBio = async (userId) => {
 
 }
 
+export const getManyBios = async (arr) => {
+
+    const {data} = await $host.get(`api/user/getManyBios?arr=${arr}`)
+
+    return (data)
+
+}
+
 export const setBio = async (bio) => {
 
     // console.log(bio)

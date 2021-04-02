@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {deletePendingQuestion} from "../http/PendingQuestionsAPI";
 import {toJS} from "mobx";
+import {parseDate} from "../functions/parseDate";
 
 
 const PendingList = observer(() => {
@@ -41,7 +42,7 @@ const PendingList = observer(() => {
             {pending.pendingList.map((i, index) =>
                 <Card className='m-1' key={index +Math.random()}>
 
-                    <div className='d-flex'>{i.createdAt} from {i.from ? '*Имя пользователя' : "Anonymous"}</div>
+                    <div className='d-flex'>{parseDate(i.createdAt)} from {i.from ? '*Имя пользователя' : "Anonymous"}</div>
                     <div><b>{i.questionText}</b></div>
 
                     {(i.id === "deleted" || i.id ==='sent') ? null :

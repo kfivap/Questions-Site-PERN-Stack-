@@ -18,7 +18,7 @@ const NotFoundPage = observer(() => {
     return (
         <Alert variant='warning'>
             <h2>404! The requested data not found</h2>
-            <Card onCLick={returnToMain} className='m-4'>
+            <Card onClick={returnToMain} className='m-4'>
                 <h4 className='text-center'
                     onClick={returnToMain}
                     style={{cursor: "pointer"}}

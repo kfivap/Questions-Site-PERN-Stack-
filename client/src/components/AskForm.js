@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl"
@@ -19,7 +19,6 @@ const AskForm = observer(() => {
     const [alertShow, setAlertShow] = useState(false)
     const [anonymous, setAnonymous] = useState(true)
 
-
     const anonymousHandler = () =>{
         setAnonymous(prevState => !prevState)
 
@@ -29,16 +28,16 @@ const AskForm = observer(() => {
     const askHandler = async () => {
 
         let from = anonymous ? 0 : user.userId
+        // console.log(timeouts.askFormTimeout)
+
 
         if (!(text.trim() === '')) {
 
-            console.log(profile.userBio.id)
-            // for(let i=0; i<50; i++){
-            //     await askQuestion(from, profile.userId, text.trim()+i)
-            // }
+
             await askQuestion(from, profile.userBio.id, text.trim())
             setText('')
             setAlertShow(true)
+
             setTimeout(()=>{
                 setAlertShow(false)
             }, 1700)
@@ -46,7 +45,9 @@ const AskForm = observer(() => {
 
     }
 
-
+    useEffect(()=>{
+        return (()=>{setAlertShow(false)})
+    }, [setAlertShow])
 
 
     return (

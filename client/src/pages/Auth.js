@@ -27,7 +27,7 @@ const Auth = observer(() => {
             user.setUser(user)
             user.setIsAuth(true)
             history.push('/')
-            // window.location.reload();
+            window.location.reload();
         } catch (e) {
             alert(e.response.data.message)
         }
@@ -44,6 +44,17 @@ const Auth = observer(() => {
                     {isLogin ? "Авторизация" : "Регистрация"}
                 </h2>
                 <Form className={'d-flex flex-column'}>
+                    {isLogin ?
+                        null :
+                        <div><span className='ml-2'>Nickname</span>
+                            <Form.Control
+                                className={'mb-3'}
+                                placeholder={"Type your nick"}
+                                value={nick}
+                                onChange={e => setNick(e.target.value)}
+                                t
+                            /></div>
+                    }
                     <div className='mt-2'><span className='ml-2'>Email</span>
                     <Form.Control
                         className={'mb-3'}
@@ -52,17 +63,7 @@ const Auth = observer(() => {
                         onChange={e => setEmail(e.target.value)}
                     />
                     </div>
-                    {isLogin ?
-                        null :
-                        <div><span className='ml-2'>Nickname</span>
-                        <Form.Control
-                            className={'mb-3'}
-                            placeholder={"Type your nick"}
-                            value={nick}
-                            onChange={e => setNick(e.target.value)}
-                            t
-                        /></div>
-                    }
+
                     <div><span className='ml-2'>Password</span>
                     <Form.Control
                         className={'mb-3'}

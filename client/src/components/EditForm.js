@@ -21,13 +21,15 @@ const EditForm = observer(() => {
     useEffect(() => {
         async function setData() {
             const data = await getBio(user.userId)
+
             user.setUserBio(data)
             let bio =toJS(user.userBio)
+            // console.log(bio.age)
             setName(bio.name)
-            setLocation(bio.location)
-            setSex(bio.sex)
-            setAge(bio.age)
-            setShortBio(bio.shortBio)
+            setLocation(bio.location || '')
+            setSex(bio.sex  || '')
+            setAge(bio.age || 0)
+            setShortBio(bio.shortBio || '')
             console.log(bio)
         }
         setData()
