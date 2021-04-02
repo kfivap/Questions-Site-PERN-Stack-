@@ -6,7 +6,8 @@ export const parseDate = (date)=> {
     const hhmmss = dateText.split(' ')[0];
 
     const hours = hhmmss.split(':')[0]
-    const minutes = hhmmss.split(':')[2]
+
+    const minutes = hhmmss.split(':')[1]
 
 
     const month = monthNames[dateObj.getMonth()];

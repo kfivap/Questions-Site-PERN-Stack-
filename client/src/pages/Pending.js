@@ -68,8 +68,8 @@ console.log(fetchBios)
 
     return (
         <div>
-            <button onClick={loadFunction}
-            >fetch</button>
+            {/*<button onClick={loadFunction}*/}
+            {/*>fetch</button>*/}
             Pending Questions
             <ModalAnswer show={pending.modalShow}
                          onHide={() => pending.setModalShow(false)}

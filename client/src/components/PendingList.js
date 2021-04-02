@@ -54,8 +54,8 @@ const PendingList = observer(() => {
                 <Card className='m-1' key={index +Math.random()}>
 
                     <div className='d-flex'>{parseDate(i.createdAt)} by&nbsp;
-                        <span className={i.from !== 0 ? 'appLink' : ''}
-                              onClick={linkToProfile.bind(true, i.from)}>
+                        <span className={i.name !== 0 ? 'appLink' : ''}
+                              onClick={i.name ? linkToProfile.bind(true, i.from) : null}>
                           {i.name ? i.name : "Anonymous"}
                         </span></div>
                     <div><b>{i.questionText}</b></div>

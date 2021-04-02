@@ -72,12 +72,12 @@ const QuestionsList = observer(() => {
             {profile.questionsList.map((i, index) =>
                 <Card className='m-1 mt-2 border-dark' key={index}>
                     {/*{JSON.stringify(i)}*/}
-                    <h3>{i.id}</h3>
+                    {/*<h3>{i.id}</h3>*/}
 
 
                     <span className='p-1 pl-2 border'><b>{i.questionText} </b>
                         by <span className={i.from !== 0 ? 'appLink' : ''}
-                        onClick={linkToProfile.bind(true, i.from)}
+                        onClick={i.name ?  linkToProfile.bind(true, i.from) : null}
                         >
                           {i.name ? i.name : "Anonymous"}</span>
                     </span>

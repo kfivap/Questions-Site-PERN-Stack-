@@ -6,6 +6,7 @@ import {observer} from "mobx-react-lite";
 import {Context} from "./index";
 import {check} from "./http/userAPI";
 import Spinner from "react-bootstrap/Spinner";
+import Container from "react-bootstrap/Container";
 
 
 const App = observer(() => {
@@ -32,7 +33,8 @@ const App = observer(() => {
     return (
         <BrowserRouter>
             <NavBar/>
-            <AppRouter/>
+            <Container style={{maxWidth: 760}}>
+                <AppRouter/></Container>
         </BrowserRouter>
     );
 })

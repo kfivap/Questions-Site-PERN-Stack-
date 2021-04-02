@@ -26,9 +26,9 @@ const NavBar = observer(() => {
     return (
         <Navbar bg="dark" variant="dark">
 <Container>
-    <NavLink style={{color: "white"}}to={MAIN_ROUTE}>Question Site</NavLink>
+    <NavLink style={{color: "white"}}to={MAIN_ROUTE}>Q.me </NavLink>
     {user.isAuth ?
-        <Nav className="ml-auto" style={{color:"white"}}>
+        <Nav className="ml-2" style={{color:"white"}}>
             <Button variant={'outline-light'}
                     onClick={()=>history.push(`/user/${user.userId}`)}
             >My Page</Button>
@@ -36,7 +36,7 @@ const NavBar = observer(() => {
 
 
             <Button variant={'outline-light'}
-                    className='ml-3'
+                    className='ml-2'
             onClick={()=>history.push('/pending')}
             >Pending</Button>
 
@@ -59,11 +59,11 @@ const NavBar = observer(() => {
             {/*>3</Button>*/}
 
             <Button variant={'outline-light'}
-                    className='ml-3'
+                    className='ml-2'
                     onClick={()=>history.push('/edit')}
             >Edit</Button>
             <Button variant={'outline-light'} className={'ml-2'}
-                    className='ml-3'
+
                     onClick={()=>logOut()}
             >Выйти</Button>
         </Nav>
