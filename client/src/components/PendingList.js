@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import Card from "react-bootstrap/Card";
@@ -6,11 +6,13 @@ import Button from "react-bootstrap/Button";
 import {deletePendingQuestion} from "../http/PendingQuestionsAPI";
 import {toJS} from "mobx";
 import {parseDate} from "../functions/parseDate";
+import {useHistory} from "react-router-dom";
 
 
 const PendingList = observer(() => {
 
     const {pending, user} = useContext(Context)
+    const history = useHistory()
 
     const deleteHandler = async (questionId, index) => {
 
@@ -33,8 +35,17 @@ const PendingList = observer(() => {
         pending.setModalShow(true)
         pending.setPendingId(id)
         pending.setPendingIndex(index)
+        // 1+11
+    }
+
+
+    const linkToProfile = (id) => {
+        history.push(`/user/${id}`)
+        // history.push(`/user/${id}`)
+
 
     }
+
 
 
     return (
@@ -42,8 +53,15 @@ const PendingList = observer(() => {
             {pending.pendingList.map((i, index) =>
                 <Card className='m-1' key={index +Math.random()}>
 
-                    <div className='d-flex'>{parseDate(i.createdAt)} from {i.from ? '*Имя пользователя' : "Anonymous"}</div>
+                    <div className='d-flex'>{parseDate(i.createdAt)} by&nbsp;
+                        <span className={i.from !== 0 ? 'appLink' : ''}
+                              onClick={linkToProfile.bind(true, i.from)}>
+                          {i.name ? i.name : "Anonymous"}
+                        </span></div>
                     <div><b>{i.questionText}</b></div>
+
+
+
 
                     {(i.id === "deleted" || i.id ==='sent') ? null :
 
