@@ -3,11 +3,16 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import {useHistory} from 'react-router-dom'
+import {useHistory, useLocation} from 'react-router-dom'
 import {setLike} from "../http/likeAPI";
 import ToggleToast from "./ToggleToast";
 
 import {parseDate} from "../functions/parseDate";
+import {getQuestions} from "../http/answeredQuestionsAPI";
+import {getBio, getManyBios} from "../http/userAPI";
+import {toJS} from "mobx";
+import Spinner from "react-bootstrap/Spinner";
+import NotFoundPage from "./NotFoundPage";
 
 
 
@@ -17,7 +22,10 @@ const QuestionsList = observer(() => {
     const history = useHistory()
     const [showToast, setShowToast] = useState(false)
     const [toastText, setToastText] = useState('')
-
+    const userId = useLocation().pathname.split('/')[2]
+    const [stopLoad, setStopLoad] = useState(false) //if no more questions
+    const [notFound, setNotFound] = useState(false)
+    const [loading, setLoading] = useState(true)
 
 
 
@@ -45,10 +53,14 @@ const QuestionsList = observer(() => {
     }
 
     const linkToProfile = (id) => {
-        history.push(`/user/${id}`)
+        if(profile.userBio.userId === id){
+            window.scrollTo(0, 0)
+            return
+        }
+        profile.setQuestionsList([''])
         profile.setFetchingPage(1)
-        profile.setQuestionsList([])
-        // profile.setQuestionsList([])
+        profile.setUserBio('')
+        history.push(`/user/${id}`)
 
     }
 
@@ -60,7 +72,7 @@ const QuestionsList = observer(() => {
             {profile.questionsList.map((i, index) =>
                 <Card className='m-1 mt-2 border-dark' key={index}>
                     {/*{JSON.stringify(i)}*/}
-                    {/*<h3>{i.id}</h3>*/}
+                    <h3>{i.id}</h3>
 
 
                     <span className='p-1 pl-2 border'><b>{i.questionText} </b>
