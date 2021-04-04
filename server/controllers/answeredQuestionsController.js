@@ -57,13 +57,38 @@ class AnsweredQuestionsController {
         page = page || 1
         limit = limit || 20
 
-// console.log(userId, limit, page)
 
         let offset = page * limit - limit
 
 
         const answered= await AnsweredQuestions.findAndCountAll({
                 where: {userId},
+                limit,
+                offset,
+                order: [
+                    ['id', 'DESC']
+                ],
+            },
+        )
+
+
+        return res.json(answered)
+
+    }
+
+
+    async showRecent(req, res, next) {
+        let {limit, page} = req.query
+
+
+        page = page || 1
+        limit = limit || 4
+
+
+        let offset = page * limit - limit
+
+
+        const answered= await AnsweredQuestions.findAndCountAll({
                 limit,
                 offset,
                 order: [

@@ -1,18 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import {useHistory, useLocation} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import {setLike} from "../http/likeAPI";
 import ToggleToast from "./ToggleToast";
 
 import {parseDate} from "../functions/parseDate";
-import {getQuestions} from "../http/answeredQuestionsAPI";
-import {getBio, getManyBios} from "../http/userAPI";
-import {toJS} from "mobx";
-import Spinner from "react-bootstrap/Spinner";
-import NotFoundPage from "./NotFoundPage";
+
 
 
 
@@ -22,10 +18,6 @@ const QuestionsList = observer(() => {
     const history = useHistory()
     const [showToast, setShowToast] = useState(false)
     const [toastText, setToastText] = useState('')
-    const userId = useLocation().pathname.split('/')[2]
-    const [stopLoad, setStopLoad] = useState(false) //if no more questions
-    const [notFound, setNotFound] = useState(false)
-    const [loading, setLoading] = useState(true)
 
 
 

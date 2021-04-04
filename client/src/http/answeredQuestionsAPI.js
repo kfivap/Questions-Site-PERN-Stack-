@@ -36,3 +36,15 @@ export const getOneQuestion = async (questionId) =>{
 
 
 
+
+
+export const showRecent = async (page, limit) =>{
+
+    const {data} = await $host.get
+    (`api/questions/answered/recent`,)
+
+    return data
+}
+
+
+

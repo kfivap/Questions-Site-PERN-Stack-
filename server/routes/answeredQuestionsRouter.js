@@ -6,6 +6,7 @@ const answeredQuestionsController = require('../controllers/answeredQuestionsCon
 router.post('/answer', answeredQuestionsController.answer)
 router.get('/show', answeredQuestionsController.show)
 router.get('/showOne', answeredQuestionsController.showOne)
+router.get('/recent', answeredQuestionsController.showRecent)
 router.delete('/delete', answeredQuestionsController.delete)
 
 
